@@ -1,4 +1,6 @@
 import axios from 'axios';
+import { browserHistory } from 'react-router';
+import { AUTH_USER, UNAUTH_USER }  from './types';
 const ROOT_URL  = 'http://localhost:3000';
 
 export function signinUser({ email, password }){
@@ -6,13 +8,24 @@ export function signinUser({ email, password }){
 
     return function(dispatch){
       // submit email/password to server
-      axios.post(`${ROOT_URL}/signin`, {email, password});
-      
-      // if request is good update state to indicate user is authenticated
-      // save the JWT token
-      // redirect to feature Router
+      axios.post(`${ROOT_URL}/signin`, {email, password})
+      .then(response => {
+        console.log(response);
+        // if request is good update state to indicate user is authenticated
+        dispatch({ type: AUTH_USER });
+        // save the JWT token
+        localStorage.setItem("token", response.data.token);
+        // redirect to feature Router
+        browserHistory.push('/feature');
+      })
+      .catch(()=> {
+        // if request is bad show user the error
 
-      // if request is bad show user the error
+      });
+
+
+
+
 
 
     };
