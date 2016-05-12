@@ -9,6 +9,24 @@ export function signoutUser(){
 
   return { type: UNAUTH_USER};
 }
+export function signupUser({ email, password }){
+  return function(dispatch){
+    axios.post(`${ROOT_URL}/signup`, {email, password})
+    .then(response => {
+      console.log(response);
+      // if request is good update state to indicate user is authenticated
+      dispatch({ type: AUTH_USER });
+      // save the JWT token
+      localStorage.setItem("token", response.data.token);
+      // redirect to feature Router
+      browserHistory.push('/feature');
+    })
+    .catch((response)=> {
+      // if request is bad show user the error
+      dispatch(authError(response.data.error));
+    });
+  };
+}
 
 export function signinUser({ email, password }){
     // redux Thunk gives direct access to dispatch
