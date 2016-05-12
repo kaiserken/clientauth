@@ -3,6 +3,13 @@ import { browserHistory } from 'react-router';
 import { AUTH_USER, UNAUTH_USER, AUTH_ERROR }  from './types';
 const ROOT_URL  = 'http://localhost:3000';
 
+export function signoutUser(){
+
+  localStorage.removeItem('token');
+
+  return { type: UNAUTH_USER};
+}
+
 export function signinUser({ email, password }){
     // redux Thunk gives direct access to dispatch
 

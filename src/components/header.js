@@ -12,11 +12,14 @@ class Header extends Component {
         </li>
       );
     } else {
-      return (
-        <li className = "nav-item">
+      return [
+        <li className = "nav-item" key = {1}>
           <Link to="/signin" className = "nav-link">Sign In</Link>
-        </li>
-      );
+        </li>,
+        <li className = "nav-item" key = {2} >
+          <Link to="/signup" className = "nav-link">Sign Up</Link>
+        </li>,
+      ];
     }
   }
   render(){
