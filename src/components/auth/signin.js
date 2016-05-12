@@ -8,7 +8,15 @@ class Signin extends Component {
     // call action creator for signing in
     this.props.signinUser({ email, password });
 
-    console.log(email, password);
+  }
+  renderAlert(){
+    if (this.props.errorMessage){
+      return(
+        <div className= "alert alert-danger">
+        <strong>Oops!</strong> {this.props.errorMessage}
+        </div>
+      );
+    }
   }
 
   render(){
@@ -22,15 +30,19 @@ class Signin extends Component {
         </fieldset>
         <fieldset className = "form-group">
           <label>Password:</label>
-          <input {...password} className = "form-control" />
+          <input {...password} type  = "password" className = "form-control" />
         </fieldset>
+        {this.renderAlert()}
         <button action = "submit" className = "btn btn-primary">Sign In</button>
       </form>
     );
   }
 }
+function mapStateToProps(state){
+  return { errorMessage: state.auth.error };
+}
 // replaces connect function  - need to pass form fields
 export default reduxForm({
   form: 'signin',
   fields: ['email', 'password']
-}, null, actions)(Signin);
+}, mapStateToProps, actions)(Signin);
